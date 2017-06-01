@@ -1,0 +1,9 @@
+name: dird-odoo-contact
+namespace: quintana
+version: 0.0.1
+author: Sylvain Boily
+display_name: Odoo contacts
+tags:
+  - beta
+  - application
+homepage: https://github.com/alexis-via/xivo-dird-plugin-backend-odoo

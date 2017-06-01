@@ -1,0 +1,27 @@
+#!/bin/sh
+# Copyright 2017 Wazo Team (see the AUTHORS file)
+# SPDX-License-Identifier: MIT
+
+case "$1" in
+    build)
+	python setup.py bdist
+        ;;
+
+    package)
+	tar xvf dist/xivo_dird_plugin_odoo-*.tar.gz -C ${pkgdir}
+        cp -R etc ${pkgdir}/
+        ;;
+
+    install)
+	systemctl restart xivo-dird
+        ;;
+
+    uninstall)
+	systemctl restart xivo-dird
+        ;;
+
+    *)
+        echo "$0 called with unknown argument '$1'" >&2
+        exit 1
+    ;;
+esac
