@@ -25,16 +25,16 @@ logger = logging.getLogger(__name__)
 
 class OdooPlugin(BaseSourcePlugin):
 
-    def load(self, args):
-        self._odoo_config = args['config']['odoo_config']
-        self.name = args['config']['name']
+    def load(self, config):
+        self._odoo_config = config['config']['odoo_config']
+        self.name = config['config']['name']
         self.sock = xmlrpclib.ServerProxy(
             'http://%s:%s/xmlrpc/object' % (
-                args['config']['odoo_config']['server'],
-                args['config']['odoo_config']['port']))
-        self.db = args['config']['odoo_config']['database']
-        self.uid = int(args['config']['odoo_config']['userid'])
-        self.pwd = args['config']['odoo_config']['password']
+                config['config']['odoo_config']['server'],
+                config['config']['odoo_config']['port']))
+        self.db = config['config']['odoo_config']['database']
+        self.uid = int(config['config']['odoo_config']['userid'])
+        self.pwd = config['config']['odoo_config']['password']
 
         unique_column = 'id'
         source_name = config['config']['name']
