@@ -3,6 +3,8 @@ namespace: quintana
 version: 0.0.1
 author: Sylvain Boily
 display_name: Odoo contacts
+plugin_format_version: 1
+min_wazo_version: 17.16
 tags:
   - beta
   - application
