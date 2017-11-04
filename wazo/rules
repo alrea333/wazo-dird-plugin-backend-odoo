@@ -1,6 +1,6 @@
 #!/bin/sh
 # Copyright 2017 Wazo Team (see the AUTHORS file)
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: GPLv3
 
 case "$1" in
     build)
@@ -8,7 +8,7 @@ case "$1" in
     ;;
 
     package)
-	tar xvf dist/xivo_dird_plugin_odoo-*.tar.gz -C ${pkgdir}
+	tar xvf dist/wazo_dird_plugin_odoo-*.tar.gz -C ${pkgdir}
         cp -R etc ${pkgdir}/
     ;;
 
