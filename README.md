@@ -13,7 +13,7 @@ On the Wazo side, in the config file */etc/xivo-dird/conf.d/odoo.yml*, enable th
 
     enabled_plugins:
         backends:
-            - odoo
+            odoo: true
 
 The possible fields with this plugin are :
 
@@ -47,20 +47,20 @@ The possible fields with this plugin are :
 You should add the source like this:
 
     services:
-        lookup:
-            default:
-                sources:
-                    - my_odoo
+      lookup:
+        default:
+          sources:
+            - my_odoo
 
 Eventually, add a configuration file *my\_odoo.yml* in the *sources.d* subdirectory:
 
     type: odoo
     name: my_odoo
     odoo_config:
-        userid: 1
-        password: adminpwd
-        database: prod
-        port: 8069
-        server: 192.168.12.42
+      userid: 1
+      password: adminpwd
+      database: prod
+      port: 8069
+      server: 192.168.12.42
 
-To benefit from the contacts of Odoo in the Xivo Client or Unicom, you need to update the configuration of the profile of the Xivo Client. For that, in the Web administration interface of Wazo, go to the menu *Services > CTI Server > General Settings > Profiles* and edit your profile (*Client* by default): in the *Xlet* tab, add the *People* Xlet (or replace the *Remote directory* Xlet by the *People* Xlet).
+To benefit from the contacts of Odoo in the Wazo Client or Unicom, you need to update the configuration of the profile of the Wazo Client. For that, in the Web administration interface of Wazo, go to the menu *Services > CTI Server > General Settings > Profiles* and edit your profile (*Client* by default): in the *Xlet* tab, add the *People* Xlet (or replace the *Remote directory* Xlet by the *People* Xlet).
