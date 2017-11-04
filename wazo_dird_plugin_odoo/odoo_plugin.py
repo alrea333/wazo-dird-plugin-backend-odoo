@@ -36,7 +36,7 @@ class OdooPlugin(BaseSourcePlugin):
         self.uid = int(config['config']['odoo_config']['userid'])
         self.pwd = config['config']['odoo_config']['password']
 
-        unique_column = 'id'
+        unique_column = None
         source_name = config['config']['name']
         format_columns = config['config'].get(self.FORMAT_COLUMNS, {})
 
