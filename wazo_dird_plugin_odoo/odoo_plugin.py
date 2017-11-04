@@ -95,5 +95,8 @@ class OdooPlugin(BaseSourcePlugin):
         logger.debug('res=%s' % res)
         return [self._source_result_from_content(content) for content in res]
 
+    def first_match(self, term, args=None):
+        return None
+
     def _source_result_from_content(self, content):
         return self._SourceResult(content)
