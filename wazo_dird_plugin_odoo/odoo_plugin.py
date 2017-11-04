@@ -28,8 +28,6 @@ class OdooPlugin(BaseSourcePlugin):
     def load(self, args):
         self._odoo_config = args['config']['odoo_config']
         self.name = args['config']['name']
-        logger.info('odoo config %s', self._odoo_config)
-        logger.info('name=%s', self.name)
         self.sock = xmlrpclib.ServerProxy(
             'http://%s:%s/xmlrpc/object' % (
                 args['config']['odoo_config']['server'],
@@ -37,11 +35,16 @@ class OdooPlugin(BaseSourcePlugin):
         self.db = args['config']['odoo_config']['database']
         self.uid = int(args['config']['odoo_config']['userid'])
         self.pwd = args['config']['odoo_config']['password']
-        logger.info('odoo db=%s', self.db)
-        logger.info('odoo uid=%s', self.uid)
+
+        unique_column = 'id'
+        source_name = config['config']['name']
+        format_columns = config['config'].get(self.FORMAT_COLUMNS, {})
+
         self._SourceResult = make_result_class(
-            self.name, None,
-            source_to_dest_map=args['config'].get(self.FORMAT_COLUMNS))
+            source_name,
+            unique_column,
+            format_columns,
+            )
 
     def name(self):
         return self.name
