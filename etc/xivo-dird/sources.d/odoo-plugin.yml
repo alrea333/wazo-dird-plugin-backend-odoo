@@ -1,8 +1,8 @@
 type: odoo
 name: my_odoo
 odoo_config:
-    server:
-    port:
-    database:
-    userid:
-    password:
+    server: 127.0.0.1
+    port: 8069
+    database: prod
+    userid: 1
+    password: adminpwd

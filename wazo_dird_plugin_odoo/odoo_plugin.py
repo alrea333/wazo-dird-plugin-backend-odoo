@@ -41,7 +41,7 @@ class OdooPlugin(BaseSourcePlugin):
         logger.info('odoo uid=%s', self.uid)
         self._SourceResult = make_result_class(
             self.name, None,
-            source_to_dest_map=args['config'].get(self.SOURCE_TO_DISPLAY))
+            source_to_dest_map=args['config'].get(self.FORMAT_COLUMNS))
 
     def name(self):
         return self.name
