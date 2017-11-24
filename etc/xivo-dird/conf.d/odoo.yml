@@ -9,17 +9,17 @@ services:
         odoo: true
 
 sources:
-  type: odoo
-  name: odoo
-  odoo_config:
-    server: 127.0.0.1
-    port: 8069
-    database: prod
-    userid: 1
-    password: adminpwd
-  format_columns:
-    display_name: '{firstname} {lastname}'
-    name: '{firstname} {lastname}'
-    phone: '{number}'
-    phone_mobile: '{mobile}'
-    reverse: '{firstname} {lastname}'
+  odoo:
+    type: odoo
+    name: odoo
+    odoo_config:
+      server: 127.0.0.1
+      port: 8069
+      database: prod
+      userid: 1
+      password: adminpwd
+    format_columns:
+      name: '{firstname} {lastname}'
+      display_name: '{firstname} {lastname}'
+      phone_mobile: '{mobile}'
+      reverse: '{firstname} {lastname}'
