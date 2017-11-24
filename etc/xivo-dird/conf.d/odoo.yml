@@ -6,4 +6,4 @@ services:
   lookup:
     default:
       sources:
-        - my_odoo
+        odoo: true
