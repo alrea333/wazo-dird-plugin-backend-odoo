@@ -6,3 +6,9 @@ odoo_config:
     database: prod
     userid: 1
     password: adminpwd
+format_columns:
+    display_name: '{firstname} {lastname}'
+    name: '{firstname} {lastname}'
+    phone: '{number}'
+    phone_mobile: '{mobile}'
+    reverse: '{firstname} {lastname}'
