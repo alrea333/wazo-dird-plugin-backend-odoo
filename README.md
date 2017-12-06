@@ -3,64 +3,52 @@ Wazo dird plugin Odoo
 
 ## Info
 
-This plugin gets contacts from Odoo v7 or v8.
+This plugin gets contacts from Odoo v7 or v8. (only tested with v8 community edition)
 
 ## How to use
 
-On the Odoo side, you need to install the *base_phone* module, which is a module of the [Odoo Community Association](https://odoo-community.org/) available on the [connector-telephony](https://github.com/OCA/connector-telephony) github project. When you install this module, a wizard will propose you to reformat the phone numbers in E.164 format ; you should follow the instructions of the wizard.
+Optional: On the Odoo side, you need to install the *base_phone* module, which is a module of the [Odoo Community Association](https://odoo-community.org/) available on the [connector-telephony](https://github.com/OCA/connector-telephony) github project. When you install this module, a wizard will propose you to reformat the phone numbers in E.164 format ; you should follow the instructions of the wizard.
+
+## How to install
+
+### CLI
+
+    apt-get install wazo-plugind-cli
+    wazo-plugind-cli -c "install git https://github.com/sboily/wazo-dird-plugin-backend-odoo"
+    
+### Interface
+
+Go to our new web interface on plugins link. In git tab add "https://github.com/sboily/wazo-dird-plugin-backend-odoo" and clic to install.
+
+## How to configure
 
 On the Wazo side, in the config file */etc/xivo-dird/conf.d/odoo.yml*, enable the odoo plugin:
 
     enabled_plugins:
-        backends:
-            odoo: true
-
-The possible fields with this plugin are :
-
-    views:
-        displays:
-            default_display:
-            -
-                title: Name
-                field: lastname
-                type: name
-            -
-                title: Entity
-                field: entity
-                type: name
-            -
-                title: Job
-                field: job
-                type: name
-            -
-                title: Phone
-                field: phone
-                type: number
-            -
-                title: Mobile
-                field: mobile
-                type: number
-            -
-                title: Email
-                field: email
-
-You should add the source like this:
-
+      backends:
+        odoo : true
+    
     services:
       lookup:
         default:
+          timeout: 10
           sources:
-            - my_odoo
-
-Eventually, add a configuration file *my\_odoo.yml* in the *sources.d* subdirectory:
-
-    type: odoo
-    name: my_odoo
-    odoo_config:
-      userid: 1
-      password: adminpwd
-      database: prod
-      port: 8069
-      server: 192.168.12.42
-
-To benefit from the contacts of Odoo in the Wazo Client or Unicom, you need to update the configuration of the profile of the Wazo Client. For that, in the Web administration interface of Wazo, go to the menu *Services > CTI Server > General Settings > Profiles* and edit your profile (*Client* by default): in the *Xlet* tab, add the *People* Xlet (or replace the *Remote directory* Xlet by the *People* Xlet).
+            odoo: true
+    
+    sources:
+      odoo:
+        type: odoo
+        name: odoo
+        odoo_config:
+          server: odoo
+          port: 8069
+          database: prod
+          userid: 1
+          password: secret
+        format_columns:
+          name: '{firstname} {lastname}'
+          display_name: '{firstname} {lastname}'
+          phone_mobile: '{mobile}'
+          reverse: '{firstname} {lastname}'
+          
+The plugin is activated by default.
