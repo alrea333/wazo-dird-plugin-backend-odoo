@@ -22,7 +22,7 @@ Go to our new web interface on plugins link. In git tab add "https://github.com/
 
 ## How to configure
 
-On the Wazo side, in the config file */etc/xivo-dird/conf.d/odoo.yml*, enable the odoo plugin:
+On the Wazo side, in the config file */etc/xivo-dird/conf.d/odoo.yml*, configure the odoo information for the plugin:
 
     enabled_plugins:
       backends:
