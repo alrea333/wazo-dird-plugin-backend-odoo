@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
-import xmlrpclib
+import xmlrpc.client as xmlrpclib
 import logging
 
 from wazo_dird import BaseSourcePlugin, make_result_class
