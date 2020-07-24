@@ -16,6 +16,10 @@ setup(
     url='https://github.com/alexis-via/xivo-dird-plugin-backend-odoo',
 
     packages=find_packages(),
+    include_package_data=True,
+    package_data={
+        'wazo_dird_plugin_odoo': ['api.yml'],
+    },
 
     entry_points={
         'wazo_dird.backends': [
