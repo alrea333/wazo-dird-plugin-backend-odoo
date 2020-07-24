@@ -116,7 +116,6 @@ definitions:
     allOf:
       - $ref: '#/definitions/Source'
       - properties:
-      port: 8069
           server:
             description: Odoo server
             example: "ip_of_odoo_server"
@@ -124,13 +123,13 @@ definitions:
             type: string
           port:
             description: Odoo server port
-            example: 8069
-            default: 8069
+            example: "8069"
+            default: "8069"
             type: integer
           userid:
             description: Odoo user ID
-            example: 1
-            default: 1
+            example: "1"
+            default: "1"
             type: integer
           password:
             description: Odoo user password
