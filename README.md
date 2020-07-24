@@ -4,7 +4,7 @@ Wazo dird plugin Odoo
 ## Info
 
 This plugin gets contacts from Odoo v7 or v8. (only tested with v8 community edition)
-Works only with Wazo >= 17.16
+Works only with Wazo >= 20.10
 
 ## How to use
 
@@ -23,33 +23,4 @@ Go to our new web interface on plugins link. In git tab add "https://github.com/
 
 ## How to configure
 
-On the Wazo side, in the config file */etc/xivo-dird/conf.d/odoo.yml*, configure the odoo information for the plugin:
-
-    enabled_plugins:
-      backends:
-        odoo : true
-    
-    services:
-      lookup:
-        default:
-          timeout: 10
-          sources:
-            odoo: true
-    
-    sources:
-      odoo:
-        type: odoo
-        name: odoo
-        odoo_config:
-          server: odoo
-          port: 8069
-          database: prod
-          userid: 1
-          password: secret
-        format_columns:
-          name: '{firstname} {lastname}'
-          display_name: '{firstname} {lastname}'
-          phone_mobile: '{mobile}'
-          reverse: '{firstname} {lastname}'
-          
-The plugin is activated by default.
+Use API or Wazo-platform UI.
