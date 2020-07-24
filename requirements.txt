@@ -1,2 +1,1 @@
-git+https://github.com/xivo-pbx/xivo-dird.git
 gdata
