@@ -6,6 +6,6 @@ display_name: Odoo contacts
 plugin_format_version: 1
 min_wazo_version: 20.10
 tags:
-  - beta
-  - application
+  - community
+  - contact
 homepage: https://github.com/alexis-via/xivo-dird-plugin-backend-odoo
