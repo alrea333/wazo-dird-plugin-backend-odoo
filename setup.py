@@ -25,5 +25,8 @@ setup(
         'wazo_dird.backends': [
             'odoo = wazo_dird_plugin_odoo.plugin:OdooPlugin',
         ],
+        'wazo_dird.views': [
+            'odoo_backend = wazo_dird_plugin_odoo.plugin:OdooView',
+        ],
     }
 )

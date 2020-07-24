@@ -20,9 +20,19 @@ import xmlrpclib
 import logging
 
 from wazo_dird import BaseSourcePlugin, make_result_class
+from wazo_dird.helpers import BaseBackendView
+
+from . import http
 
 
 logger = logging.getLogger(__name__)
+
+
+class OdooView(BaseBackendView):
+
+    backend = 'odoo'
+    list_resource = http.OdooList
+    item_resource = http.OdooItem
 
 
 class OdooPlugin(BaseSourcePlugin):
