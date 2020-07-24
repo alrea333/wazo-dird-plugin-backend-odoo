@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
@@ -6,7 +6,7 @@ from setuptools import find_packages
 
 setup(
     name='wazo_dird_plugin_odoo',
-    version='0.1',
+    version='0.2',
 
     description='Wazo dird plugins to search in Odoo',
 
@@ -18,8 +18,8 @@ setup(
     packages=find_packages(),
 
     entry_points={
-        'xivo_dird.backends': [
-            'odoo = wazo_dird_plugin_odoo.odoo_plugin:OdooPlugin',
+        'wazo_dird.backends': [
+            'odoo = wazo_dird_plugin_odoo.plugin:OdooPlugin',
         ],
     }
 )

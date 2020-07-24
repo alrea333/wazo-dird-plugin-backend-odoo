@@ -1,0 +1,149 @@
+paths:
+  /backends/odoo/sources:
+    get:
+      operationId: list_odoo_source
+      summary: Get Odoo configuration
+      description: '**Required ACL:** `dird.backends.odoo.sources.read`'
+      tags:
+        - configuration
+      parameters:
+        - $ref: '#/parameters/tenantuuid'
+        - $ref: '#/parameters/recurse'
+        - $ref: '#/parameters/order'
+        - $ref: '#/parameters/direction'
+        - $ref: '#/parameters/Limit'
+        - $ref: '#/parameters/Offset'
+      responses:
+        '200':
+          description: Configured odoo source
+          schema:
+            $ref: '#/definitions/OdooSourceItems'
+    post:
+      operationId: create_odoo_source
+      summary: Configure a source for the odoo backend
+      description: '**Required ACL:** `dird.backends.odoo.sources.create`'
+      tags:
+        - configuration
+      parameters:
+        - $ref: '#/parameters/tenantuuid'
+        - in: body
+          name: body
+          description: The display configuration body
+          required: true
+          schema:
+            $ref: '#/definitions/OdooSource'
+      responses:
+        '201':
+          description: The created display
+          schema:
+            $ref: '#/definitions/OdooSource'
+          examples:
+            application/json:
+              format_columns:
+                name: '{firstname} {lastname}'
+                display_name: '{firstname} {lastname}'
+                phone_mobile: '{mobile}'
+                reverse: '{firstname} {lastname}'
+              name: odoo
+              searched_columns: ["displayName", "phone_mobile"]
+              first_matched_columns: ["phone", "phone_mobile"]
+        '400':
+          $ref: '#/responses/CreateError'
+        '409':
+          description: Source already exists
+          schema:
+            $ref: '#/definitions/Error'
+  /backends/odoo/sources/{source_uuid}:
+    get:
+      operationId: get_a_odoo_source
+      summary: Get a `odoo` source configuration
+      description: '**Required ACL:** `dird.backends.odoo.sources.{source_uuid}.read`'
+      tags:
+        - configuration
+      parameters:
+        - $ref: '#/parameters/tenantuuid'
+        - $ref: '#/parameters/sourceuuid'
+      responses:
+        '200':
+          description: The `odoo` source
+          schema:
+            $ref: '#/definitions/OdooSource'
+        '404':
+          $ref: '#/responses/NotFoundError'
+    put:
+      operationId: update_odoo_source
+      summary: Update a `odoo` source configuration
+      description: '**Required ACL:** `dird.backends.odoo.sources.{source_uuid}.update`'
+      tags:
+        - configuration
+      parameters:
+        - $ref: '#/parameters/tenantuuid'
+        - $ref: '#/parameters/sourceuuid'
+        - name: body
+          in: body
+          description: The source configuration body
+          required: true
+          schema:
+            $ref: '#/definitions/OdooSource'
+      responses:
+        '204':
+          $ref: '#/responses/ResourceUpdated'
+        '400':
+          $ref: '#/responses/UpdateError'
+        '404':
+          $ref: '#/responses/NotFoundError'
+        '409':
+          description: Duplicate Source
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      operationId: delete_odoo_source
+      summary: Delete a `odoo` source configuration
+      description: '**Required ACL:** `dird.backends.odoo.sources.{source_uuid}.delete`'
+      tags:
+        - configuration
+      parameters:
+        - $ref: '#/parameters/tenantuuid'
+        - $ref: '#/parameters/sourceuuid'
+      responses:
+        '204':
+          $ref: '#/responses/ResourceDeleted'
+        '404':
+          $ref: '#/responses/NotFoundError'
+definitions:
+  OdooSource:
+    title: OdooSource
+    allOf:
+      - $ref: '#/definitions/Source'
+      - properties:
+      port: 8069
+          server:
+            description: Odoo server
+            example: "ip_of_odoo_server"
+            default: ""
+            type: string
+          port:
+            description: Odoo server port
+            example: 8069
+            default: 8069
+            type: integer
+          userid:
+            description: Odoo user ID
+            example: 1
+            default: 1
+            type: integer
+          password:
+            description: Odoo user password
+            example: "password"
+            default: ""
+            type: string
+          database:
+            description: Odoo database
+            example: "my_database"
+            default: ""
+            type: string
+      - required:
+        - server
+        - userid
+        - password
+        - database

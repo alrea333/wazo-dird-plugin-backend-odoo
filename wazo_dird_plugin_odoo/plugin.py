@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2015 Alexis de Lattre <alexis@via.ecp.fr>
+# Copyright (C) 2020 Sylvain Boily <sylvain@wazo.io>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,42 +16,48 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
-from xivo_dird import BaseSourcePlugin
-from xivo_dird import make_result_class
 import xmlrpclib
 import logging
+
+from wazo_dird import BaseSourcePlugin, make_result_class
+
 
 logger = logging.getLogger(__name__)
 
 
 class OdooPlugin(BaseSourcePlugin):
 
-    def load(self, config):
-        self._odoo_config = config['config']['odoo_config']
-        self.name = config['config']['name']
+    def load(self, dependencies):
+        config = dependencies['config']
+
+        self.name = config['name']
         self.sock = xmlrpclib.ServerProxy(
             'http://%s:%s/xmlrpc/object' % (
-                config['config']['odoo_config']['server'],
-                config['config']['odoo_config']['port']))
-        self.db = config['config']['odoo_config']['database']
-        self.uid = int(config['config']['odoo_config']['userid'])
-        self.pwd = config['config']['odoo_config']['password']
+                config['server'],
+                config['port']))
+        self.db = config['database']
+        self.uid = config['userid']
+        self.pwd = config['password']
 
         unique_column = None
-        source_name = config['config']['name']
-        format_columns = config['config'].get(self.FORMAT_COLUMNS, {})
+        format_columns = dependencies['config'].get(self.FORMAT_COLUMNS, {})
+        if 'reverse' not in format_columns:
+            logger.info(
+                'no "reverse" column has been configured on %s will use "givenName"',
+                self.name
+            )
+            format_columns['reverse'] = '{givenName}'
+
 
         self._SourceResult = make_result_class(
-            source_name,
+            'odoo',
+            self.name,
             unique_column,
             format_columns,
-            )
+        )
 
-    def name(self):
-        return self.name
-
-    def search(self, term, profile=None, args=None):
-        logger.debug("search term=%s profile=%s", term, profile)
+    def search(self, term, args=None):
+        logger.debug("search term=%s", term)
         partner_ids = self.sock.execute(
             self.db, self.uid, self.pwd, 'res.partner', 'search',
             [('name', 'ilike', '%%%s%%' % term)])

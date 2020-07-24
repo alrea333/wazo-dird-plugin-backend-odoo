@@ -1,10 +1,10 @@
 #!/bin/sh
-# Copyright 2017 Wazo Team (see the AUTHORS file)
+# Copyright 2017-2020 Wazo Team (see the AUTHORS file)
 # SPDX-License-Identifier: GPLv3
 
 case "$1" in
     build)
-	python setup.py bdist
+	python3 setup.py bdist -d dist/python3
     ;;
 
     package)
@@ -17,7 +17,8 @@ case "$1" in
     ;;
 
     uninstall)
-	systemctl restart wazo-dird
+	rm -f /etc/wazo-dird/conf.d/odoo.yml
+	systemctl restart wazo-dird || true
     ;;
 
     postrm)
