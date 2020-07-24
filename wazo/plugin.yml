@@ -1,6 +1,6 @@
 name: dird-odoo-contact
 namespace: quintana
-version: 0.0.1
+version: 0.0.2
 author: Sylvain Boily
 display_name: Odoo contacts
 plugin_format_version: 1

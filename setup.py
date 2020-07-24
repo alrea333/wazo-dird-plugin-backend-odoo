@@ -6,7 +6,7 @@ from setuptools import find_packages
 
 setup(
     name='wazo_dird_plugin_odoo',
-    version='0.2',
+    version='0.0.2',
 
     description='Wazo dird plugins to search in Odoo',
 
