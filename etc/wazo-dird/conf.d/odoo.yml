@@ -1,5 +1,3 @@
 enabled_plugins:
   backends:
     odoo: true
-  views:
-    odoo: true
