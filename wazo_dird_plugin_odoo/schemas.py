@@ -8,9 +8,11 @@ from wazo_dird.schemas import BaseSourceSchema
 
 
 class SourceSchema(BaseSourceSchema):
-    unique_column = fields.String(Length(min=1, max=128), allownone=True, missing=None)
-    file = fields.String(Length(min=1), required=True)
-    separator = fields.String(Length(min=1, max=1), missing=',')
+    server = fields.String(required=True)
+    port = fields.String(required=True)
+    userid = fields.String(required=True)
+    password = fields.String(required=True)
+    database = fields.String(required=True)
 
 
 class ListSchema(_ListSchema):
