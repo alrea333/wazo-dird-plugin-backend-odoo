@@ -4,6 +4,7 @@ Wazo dird plugin Odoo
 ## Info
 
 This plugin gets contacts from Odoo v7 or v8. (only tested with v8 community edition)
+
 Works only with Wazo >= 20.10
 
 ## How to use
