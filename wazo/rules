@@ -13,11 +13,11 @@ case "$1" in
     ;;
 
     install)
-	systemctl restart xivo-dird
+	systemctl restart wazo-dird
     ;;
 
     uninstall)
-	systemctl restart xivo-dird
+	systemctl restart wazo-dird
     ;;
 
     postrm)
