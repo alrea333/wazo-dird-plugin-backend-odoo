@@ -36,14 +36,6 @@ class Plugin(object):
             return "Odoo"
 
 
-class OdooConfigurationView(BaseIPBXHelperView):
-    form = OdooSourceForm
-    resource = 'odoo'
-
-    def index(self):
-        return super().index()
-
-
 class OdooForm(BaseForm):
     first_matched_columns = FieldList(FormField(ColumnsForm))
     format_columns = FieldList(FormField(ValueColumnsForm))
@@ -60,3 +52,11 @@ class OdooSourceForm(BaseForm):
     backend = HiddenField()
     name = StringField(l_('Name'), validators=[InputRequired()])
     odoo_config = FormField(OdooForm)
+
+
+class OdooConfigurationView(BaseIPBXHelperView):
+    form = OdooSourceForm
+    resource = 'odoo'
+
+    def index(self):
+        return super().index()
