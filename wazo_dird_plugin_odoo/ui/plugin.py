@@ -1,7 +1,7 @@
 # Copyright 2020 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, url_for
 from flask_classful import route
 
 
@@ -73,6 +73,9 @@ class OdooSourceForm(BaseForm):
 class OdooConfigurationView(BaseIPBXHelperView):
     form = OdooSourceForm
     resource = 'odoo'
+
+    def list(self):
+        return redirect(url_for('dird_source.list'))
 
     @route('/new/<backend>', methods=['GET'])
     def new(self, backend):
