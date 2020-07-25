@@ -4,6 +4,8 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_classful import route
 
+from requests.exceptions import HTTPError
+
 
 from wazo_ui.helpers.plugin import create_blueprint
 from wazo_ui.helpers.form import BaseForm
