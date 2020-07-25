@@ -32,10 +32,6 @@ class Plugin(object):
 
         core.register_blueprint(odoo)
 
-        @bp.route('dird_sources/new/odoo', methods=['GET'])
-        def odoo_create():
-            return "Odoo"
-
 
 class ValueColumnsForm(BaseForm):
     key = StringField(validators=[InputRequired()])
