@@ -3,7 +3,7 @@
 {% set backend = 'odoo' %}
 
 {% if form_mode == 'add' %}
-  {% set url_action = url_for('wazo_engine.dird_source.DirdSourceView:post') %}
+  {% set url_action = url_for('wazo_engine.dird_source.DirdSourceView:index') %}
   {% set submit_value = _('Add') %}
   {% set breadcrumb = { 'name': _('Add Odoo source'), 'icon': 'address-book' } %}
 {% else %}
