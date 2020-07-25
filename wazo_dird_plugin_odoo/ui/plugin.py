@@ -74,7 +74,7 @@ class OdooConfigurationView(BaseIPBXHelperView):
     form = OdooSourceForm
     resource = 'odoo'
 
-    def list(self):
+    def index(self):
         return redirect(url_for('dird_source.list'))
 
     @route('/new/<backend>', methods=['GET'])
