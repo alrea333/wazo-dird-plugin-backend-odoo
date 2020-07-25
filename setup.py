@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# Copyright 2015-2019 The Wazo Authors  (see the AUTHORS file)
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 from setuptools import setup
 from setuptools import find_packages
@@ -7,13 +9,10 @@ from setuptools import find_packages
 setup(
     name='wazo_dird_plugin_odoo',
     version='0.0.2',
-
     description='Wazo dird plugins to search in Odoo',
-
-    author='Alexis de Lattre',
-    author_email='alexis@via.ecp.fr',
-
-    url='https://github.com/alexis-via/xivo-dird-plugin-backend-odoo',
+    author='Wazo Authors',
+    author_email='dev@wazo.community',
+    url='https://github.com/sboily/wazo-dird-plugin-backend-odoo',
 
     packages=find_packages(),
     include_package_data=True,
@@ -31,5 +30,9 @@ setup(
         'dird_client.commands': [
             'odoo = wazo_dird_plugin_odoo.client.plugin:OdooCommand'
         ],
+        'wazo_ui.plugins': [
+            'odoo = wazo_dird_plugin_odoo.ui.plugin:OdooUi'
+        ],
+
     }
 )
