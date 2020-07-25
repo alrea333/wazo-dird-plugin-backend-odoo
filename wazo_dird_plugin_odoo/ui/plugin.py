@@ -32,6 +32,10 @@ class Plugin(object):
 
         core.register_blueprint(odoo)
 
+        @bp.route('dird_sources/new/odoo', methods=['GET'])
+        def odoo_create():
+            return redirect("/engine/odoo_configuration/new/odoo")
+
 
 class ValueColumnsForm(BaseForm):
     key = StringField(validators=[InputRequired()])
@@ -64,5 +68,6 @@ class OdooConfigurationView(BaseIPBXHelperView):
     form = OdooSourceForm
     resource = 'odoo'
 
-    def index(self):
-        return super().index()
+    @route('/new/<backend>', methods=['GET'])
+    def new(self, backend):
+        return backend
