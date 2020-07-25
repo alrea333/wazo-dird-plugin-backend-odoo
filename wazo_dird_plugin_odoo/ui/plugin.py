@@ -72,4 +72,9 @@ class OdooConfigurationView(BaseIPBXHelperView):
 
     @route('/new/<backend>', methods=['GET'])
     def new(self, backend):
-        return backend
+        form = self.form(backend=backend)
+
+        return render_template(self._get_template(backend=backend),
+                               form_mode='add',
+                               current_breadcrumbs=self._get_current_breadcrumbs(),
+                               form=form)
