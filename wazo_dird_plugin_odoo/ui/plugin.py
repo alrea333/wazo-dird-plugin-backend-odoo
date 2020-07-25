@@ -3,6 +3,10 @@
 
 from flask import render_template
 
+from wazo_ui.helpers.plugin import create_blueprint
+from wazo_ui.helpers.form import BaseForm
+from wazo_ui.helpers.view import BaseIPBXHelperView
+
 from wazo_ui.plugins.dird_source.plugin import dird_source as bp
 from flask_babel import lazy_gettext as l_
 from wtforms.fields import (
@@ -12,8 +16,6 @@ from wtforms.fields import (
     HiddenField
 )
 from wtforms.validators import InputRequired
-
-from wazo_ui.helpers.form import BaseForm
 
 
 odoo = create_blueprint('odoo', __name__)
