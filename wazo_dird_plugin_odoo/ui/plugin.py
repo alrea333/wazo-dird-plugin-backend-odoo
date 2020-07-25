@@ -1,7 +1,7 @@
 # Copyright 2020 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from flask import render_template,redirect
+from flask import render_template, redirect, request
 from flask_classful import route
 
 
@@ -78,3 +78,17 @@ class OdooConfigurationView(BaseIPBXHelperView):
                                form_mode='add',
                                current_breadcrumbs=self._get_current_breadcrumbs(),
                                form=form)
+
+    def _get_template(self, type_=None, backend=None):
+        blueprint = request.blueprint.replace('.', '/')
+
+        if not type_:
+            return '{blueprint}/form/form_{backend}.html'.format(
+                blueprint=blueprint,
+                backend=backend
+            )
+        else:
+            return '{blueprint}/{type_}.html'.format(
+                blueprint=blueprint,
+                type_=type_
+            )
