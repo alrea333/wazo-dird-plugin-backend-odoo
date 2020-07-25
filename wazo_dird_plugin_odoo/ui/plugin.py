@@ -29,8 +29,9 @@ class Plugin(object):
 
     def load(self, dependencies):
         core = dependencies['flask']
+        clients = dependencies['clients']
 
-        OdooConfigurationView.service = OdooService()
+        OdooConfigurationView.service = OdooService(clients['wazo_dird'])
         OdooConfigurationView.register(odoo, route_base='/odoo_configuration')
         register_flaskview(odoo, OdooConfigurationView)
 
