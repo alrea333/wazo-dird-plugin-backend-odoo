@@ -75,7 +75,7 @@ class OdooConfigurationView(BaseIPBXHelperView):
     resource = 'odoo'
 
     def index(self):
-        return redirect(url_for('dird_source.list'))
+        return redirect(url_for('wazo_engine.dird_source.DirdSourceView:index'))
 
     @route('/new/<backend>', methods=['GET'])
     def new(self, backend):
