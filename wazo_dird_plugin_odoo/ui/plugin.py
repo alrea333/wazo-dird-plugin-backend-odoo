@@ -16,7 +16,8 @@ from wtforms.fields import (
     FormField,
     FieldList,
     StringField,
-    HiddenField
+    HiddenField,
+    SubmitField
 )
 from wtforms.validators import InputRequired
 
@@ -64,6 +65,7 @@ class OdooSourceForm(BaseForm):
     backend = HiddenField()
     name = StringField(l_('Name'), validators=[InputRequired()])
     odoo_config = FormField(OdooForm)
+    submit = SubmitField()
 
 
 class OdooConfigurationView(BaseIPBXHelperView):
