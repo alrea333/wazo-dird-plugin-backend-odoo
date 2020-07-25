@@ -30,6 +30,7 @@ class Plugin(object):
     def load(self, dependencies):
         core = dependencies['flask']
 
+        OdooConfigurationView.service = OdooService()
         OdooConfigurationView.register(odoo, route_base='/odoo_configuration')
         register_flaskview(odoo, OdooConfigurationView)
 
@@ -97,3 +98,24 @@ class OdooConfigurationView(BaseIPBXHelperView):
                 blueprint=blueprint,
                 type_=type_
             )
+
+
+class OdooService:
+
+    def __init__(self, dird_client):
+        self._dird = dird_client
+
+    def get(self, source_uuid):
+        results = [source for source in self.list()['items'] if source['uuid'] == source_uuid]
+        source = results[0] if len(results) else None
+        backend = source['backend']
+
+        result = self._dird.backends.get_source(backend, source_uuid)
+        result.update(source)
+        return result
+
+    def create(self, source_data):
+        backend = source_data['backend']
+        source_data['odoo_config']['name'] = source_data['name']
+
+        return self._dird.backends.create_source(backend, source_data['odoo_config'])
