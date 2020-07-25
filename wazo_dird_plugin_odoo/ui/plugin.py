@@ -7,6 +7,6 @@ class OdooUi(object):
 
     def load(self, dependencies):
 
-        @bp.route('dird_source/test')
-        def test_view():
+        @bp.route('dird_source/new/odoo', methods=['GET'])
+        def odoo_create():
             return "Hi!"
