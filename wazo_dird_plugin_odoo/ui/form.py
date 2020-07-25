@@ -6,7 +6,9 @@ from wtforms.fields import (
     FormField,
     FieldList,
     StringField,
+    HiddenField
 )
+from wtforms.validators import InputRequired
 
 from wazo_ui.helpers.form import BaseForm
 
@@ -20,3 +22,10 @@ class OdooForm(BaseForm):
     userid = StringField(l_('UserID'))
     password = StringField(l_('Password'))
     database = StringField(l_('Database'))
+
+
+class DirdOdooSourceForm(BaseForm):
+    tenant_uuid = HiddenField()
+    backend = HiddenField()
+    name = StringField(l_('Name'), validators=[InputRequired()])
+    odoo_config = FormField(OdooForm)
