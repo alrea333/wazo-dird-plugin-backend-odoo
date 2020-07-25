@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from flask import render_template
+from flask_classful import route
+
 
 from wazo_ui.helpers.plugin import create_blueprint
 from wazo_ui.helpers.form import BaseForm
