@@ -14,11 +14,14 @@ case "$1" in
 
     install)
 	systemctl restart wazo-dird
+	systemctl restart wazo-ui
     ;;
 
     uninstall)
 	rm -f /etc/wazo-dird/conf.d/odoo.yml
 	systemctl restart wazo-dird || true
+	rm -f /etc/wazo-ui/conf.d/odoo.yml
+	systemctl restart wazo-ui || true
     ;;
 
     postrm)
