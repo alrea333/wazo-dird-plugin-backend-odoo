@@ -17,7 +17,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     package_data={
-        'wazo_dird_plugin_odoo': ['api.yml', 'ui/templates/*.html'],
+        'wazo_dird_plugin_odoo': ['api.yml', 'ui/templates/*/*/*/*.html'],
     },
 
     entry_points={
@@ -31,7 +31,7 @@ setup(
             'odoo = wazo_dird_plugin_odoo.client.plugin:OdooCommand'
         ],
         'wazo_ui.plugins': [
-            'odoo = wazo_dird_plugin_odoo.ui.plugin:OdooUi'
+            'odoo = wazo_dird_plugin_odoo.ui.plugin:Plugin'
         ],
 
     }
