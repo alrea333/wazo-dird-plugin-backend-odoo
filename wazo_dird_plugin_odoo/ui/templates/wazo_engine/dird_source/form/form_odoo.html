@@ -29,7 +29,7 @@
 
       {% call build_form(action=url_action) %}
         {% call build_tabs_content() %}
-          <!-- CSV -->
+          <!-- ODOO -->
           {% call build_tab_content_item('odoo', active=True) %}
             {% call add_default_fields(form=form, submit_value=submit_value) %}
               {{ render_field(form.backend) }}
