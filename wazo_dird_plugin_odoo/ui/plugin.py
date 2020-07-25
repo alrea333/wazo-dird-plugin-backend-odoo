@@ -89,6 +89,62 @@ class OdooConfigurationView(BaseIPBXHelperView):
                                current_breadcrumbs=self._get_current_breadcrumbs(),
                                form=form)
 
+    def post(self):
+        form = self.form()
+        resources = self._map_form_to_resources_post(form)
+
+        if not form.csrf_token.validate(form):
+            self._flash_basic_form_errors(form)
+            return self._new(form)
+
+        try:
+            self.service.create(resources)
+        except HTTPError as error:
+            form = self._fill_form_error(form, error)
+            self._flash_http_error(error)
+            return self._new(form)
+
+        flash('Resource has been created', 'success')
+        return self._redirect_for('index')
+
+    def _map_form_to_resources(self, form, form_id=None):
+        resource = super()._map_form_to_resources(form, form_id)
+        config_name = 'odoo_config'
+
+        if 'format_columns' in resource[config_name]:
+            resource[config_name]['format_columns'] = {option['key']: option['value'] for option in
+                                                       resource[config_name]['format_columns']}
+
+        if 'searched_columns' in resource[config_name]:
+            resource[config_name]['searched_columns'] = [option['value'] for option in
+                                                         resource[config_name]['searched_columns']]
+
+        if 'first_matched_columns' in resource[config_name]:
+            resource[config_name]['first_matched_columns'] = [option['value'] for option in
+                                                              resource[config_name]['first_matched_columns']]
+
+        return resource
+
+    def _map_resources_to_form(self, resource):
+        config_name = 'odoo_config'
+
+        resource[config_name] = resource
+
+        if 'format_columns' in resource[config_name]:
+            resource[config_name]['format_columns'] = [{'key': key, 'value': val} for (key, val) in
+                                                       resource[config_name]['format_columns'].items()]
+
+        if 'searched_columns' in resource[config_name]:
+            resource[config_name]['searched_columns'] = [{'value': option} for option in
+                                                         resource[config_name]['searched_columns']]
+
+        if 'first_matched_columns' in resource[config_name]:
+            resource[config_name]['first_matched_columns'] = [{'value': option} for option in
+                                                              resource[config_name]['first_matched_columns']]
+
+        form = self.form(data=resource)
+        return form
+
     def _get_template(self, type_=None, backend=None):
         blueprint = request.blueprint.replace('.', '/')
 
