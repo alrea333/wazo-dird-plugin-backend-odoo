@@ -31,7 +31,7 @@ setup(
             'odoo_source = wazo_dird_plugin_odoo.client.plugin:OdooCommand'
         ],
         'wazo_ui.plugins': [
-            'odoo = wazo_dird_plugin_odoo.ui.plugin:OdooUi'
+            'odoo_source = wazo_dird_plugin_odoo.ui.plugin:OdooUi'
         ],
 
     }

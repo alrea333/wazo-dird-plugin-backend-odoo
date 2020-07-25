@@ -1,2 +1,2 @@
 enabled_plugins:
-  odoo: true
+  odoo_source: true
