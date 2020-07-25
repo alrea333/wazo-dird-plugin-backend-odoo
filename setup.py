@@ -27,7 +27,7 @@ setup(
         'wazo_dird.views': [
             'odoo_backend = wazo_dird_plugin_odoo.plugin:OdooView',
         ],
-        'dird_client.commands': [
+        'wazo_dird_client.commands': [
             'odoo = wazo_dird_plugin_odoo.client.plugin:OdooCommand'
         ],
         'wazo_ui.plugins': [
