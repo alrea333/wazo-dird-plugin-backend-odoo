@@ -36,6 +36,15 @@ class Plugin(object):
             return "Odoo"
 
 
+class ValueColumnsForm(BaseForm):
+    key = StringField(validators=[InputRequired()])
+    value = StringField(validators=[InputRequired()])
+
+
+class ColumnsForm(BaseForm):
+    value = StringField(validators=[InputRequired()])
+
+
 class OdooForm(BaseForm):
     first_matched_columns = FieldList(FormField(ColumnsForm))
     format_columns = FieldList(FormField(ValueColumnsForm))
