@@ -39,6 +39,10 @@ class Plugin(object):
 
         core.register_blueprint(odoo)
 
+        @bp.route('dird_sources/get/odoo/<id>', methods=['GET'])
+        def odoo_get(id):
+            return redirect("/engine/odoo_configuration/get/odoo/{}".format(id))
+
         @bp.route('dird_sources/new/odoo', methods=['GET'])
         def odoo_create():
             return redirect("/engine/odoo_configuration/new/odoo")
@@ -78,6 +82,10 @@ class OdooConfigurationView(BaseIPBXHelperView):
 
     def index(self):
         return redirect(url_for('wazo_engine.dird_source.DirdSourceView:index'))
+
+    @route('/get/<backend>/<id>', methods=['GET'])
+    def get(self, backend, id):
+        return id
 
     @route('/new/<backend>', methods=['GET'])
     def new(self, backend):
