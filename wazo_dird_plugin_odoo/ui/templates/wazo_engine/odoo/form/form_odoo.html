@@ -7,9 +7,9 @@
   {% set submit_value = _('Add') %}
   {% set breadcrumb = { 'name': _('Add Odoo source'), 'icon': 'address-book' } %}
 {% else %}
-  {% set url_action = url_for('.OdooConfigurationView:put', id=resource.uuid) %}
+  {% set url_action = url_for('.OdooConfigurationView:put', backend=backend, id=resource.uuid) %}
   {% set submit_value = _('Edit') %}
-  {% set breadcrumb = { 'name': resource.name, 'link': url_for('OdooConfigurationView:get', id=resource.uuid), 'icon': 'address-book' } %}
+  {% set breadcrumb = { 'name': resource.name, 'link': url_for('.OdooConfigurationView:get', backend=backend, id=resource.uuid), 'icon': 'address-book' } %}
 {% endif %}
 
 {% block content_header %}
