@@ -84,7 +84,7 @@ class OdooConfigurationView(BaseIPBXHelperView):
         return redirect(url_for('wazo_engine.dird_source.DirdSourceView:index'))
 
     @route('/get/<backend>/<id>', methods=['GET'])
-    def get(self, backend, id):
+    def get(self, backend, id, form=None):
         try:
             resource = self.service.get(backend, id)
         except HTTPError as error:
