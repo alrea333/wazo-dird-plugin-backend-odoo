@@ -85,7 +85,20 @@ class OdooConfigurationView(BaseIPBXHelperView):
 
     @route('/get/<backend>/<id>', methods=['GET'])
     def get(self, backend, id):
-        return id
+        try:
+            resource = self.service.get(backend, id)
+        except HTTPError as error:
+            self._flash_http_error(error)
+            return self._redirect_for('index')
+
+        form = form or self._map_resources_to_form(resource)
+        form = self._populate_form(form)
+
+        return render_template(self._get_template(backend=backend),
+                               form=form,
+                               resource=resource,
+                               current_breadcrumbs=self._get_current_breadcrumbs(),
+                               listing_urls=self.listing_urls)
 
     @route('/new/<backend>', methods=['GET'])
     def new(self, backend):
@@ -175,13 +188,9 @@ class OdooService:
     def __init__(self, dird_client):
         self._dird = dird_client
 
-    def get(self, source_uuid):
-        results = [source for source in self.list()['items'] if source['uuid'] == source_uuid]
-        source = results[0] if len(results) else None
-        backend = source['backend']
-
+    def get(self, backend, source_uuid):
         result = self._dird.backends.get_source(backend, source_uuid)
-        result.update(source)
+        result['backend'] = backend
         return result
 
     def create(self, source_data):
