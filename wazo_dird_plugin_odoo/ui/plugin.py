@@ -198,3 +198,10 @@ class OdooService:
         source_data['odoo_config']['name'] = source_data['name']
 
         return self._dird.backends.create_source(backend, source_data['odoo_config'])
+
+    def update(self, source_data):
+        backend = source_data['backend']
+        source_data[backend + '_config']['name'] = source_data['name']
+
+        return self._dird.backends.edit_source(backend, source_data['uuid'], source_data['odoo_config'])
+
