@@ -26,13 +26,14 @@ class OdooPlugin(BaseSourcePlugin):
         config = dependencies['config']
 
         self.name = config['name']
-        self.sock = xmlrpclib.ServerProxy(
-            'http://%s:%s/xmlrpc/object' % (
-                config['server'],
-                config['port']))
+        self.sock = xmlrpclib.ServerProxy('https://%s/xmlrpc/2/object' % (config['server']))
         self.db = config['database']
-        self.uid = config['userid']
+        self.userid = config['userid']
         self.pwd = config['password']
+
+        logger.info('Starting Odoo authentication')
+        common = xmlrpclib.ServerProxy('https://%s/xmlrpc/2/common' % (config['server']))
+        self.uid = common.authenticate(self.db, self.userid, self.pwd, {})
 
         unique_column = None
         format_columns = dependencies['config'].get(self.FORMAT_COLUMNS, {})
@@ -41,7 +42,14 @@ class OdooPlugin(BaseSourcePlugin):
                 'no "reverse" column has been configured on %s will use "givenName"',
                 self.name
             )
-            format_columns['reverse'] = '{givenName}'
+            format_columns['reverse'] = '{name}'
+
+        self._first_matched_columns = config.get(self.FIRST_MATCHED_COLUMNS, [])
+        if not self._first_matched_columns:
+            logger.info(
+                'no "first_matched_columns" configured on "%s" no results will be matched',
+                self.name,
+            )
 
 
         self._SourceResult = make_result_class(
@@ -62,7 +70,7 @@ class OdooPlugin(BaseSourcePlugin):
             partner_reads = self.sock.execute(
                 self.db, self.uid, self.pwd, 'res.partner', 'read',
                 partner_ids,
-                ['name', 'phone', 'mobile', 'fax', 'email', 'parent_id',
+                ['name', 'phone', 'mobile', 'email', 'parent_id',
                  'child_ids', 'function'])
             for partner in partner_reads:
                 res.append({
@@ -74,7 +82,6 @@ class OdooPlugin(BaseSourcePlugin):
                     'entity':
                     partner['parent_id'] and partner['parent_id'][1] or '',
                     'mobile': partner['mobile'] or '',
-                    'fax': partner['fax'] or '',
                     })
                 if partner['child_ids']:
                     logger.debug(
@@ -83,7 +90,7 @@ class OdooPlugin(BaseSourcePlugin):
                     children_reads = self.sock.execute(
                         self.db, self.uid, self.pwd, 'res.partner', 'read',
                         partner['child_ids'],
-                        ['name', 'phone', 'mobile', 'fax', 'email',
+                        ['name', 'phone', 'mobile', 'email',
                          'parent_id', 'function'])
                     for child in children_reads:
                         res.append({
@@ -95,12 +102,31 @@ class OdooPlugin(BaseSourcePlugin):
                             'entity':
                             child['parent_id'] and child['parent_id'][1] or '',
                             'mobile': child['mobile'] or '',
-                            'fax': child['fax'] or '',
                             })
         logger.debug('res=%s' % res)
         return [self._source_result_from_content(content) for content in res]
 
     def first_match(self, term, args=None):
+        #models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(self.server))
+        tabfmcolumns = ['|']
+        for fmcolumn in self._first_matched_columns:
+            tabfmcolumns.append((fmcolumn, '=' ,term))
+        logger.info('tabfmcolumns %s', tabfmcolumns)
+        #responseName = models.execute_kw(self.db, self.uid, self.pwd,
+        responseName = self.sock.execute_kw(
+            self.db, self.uid, self.pwd,
+            'res.partner', 'search_read',
+            [tabfmcolumns],
+            {'fields': ['name', 'parent_id'], 'limit': 1})
+
+        if responseName:
+            logger.info('Odoo reply %s', responseName)
+            response = responseName[0]['name']
+            if responseName[0]['parent_id']:
+                response = response + ' (' + responseName[0]['parent_id'][1] + ')'
+                logger.info('response %s', response)
+            return self._source_result_from_content({'name': response})
+
         return None
 
     def _source_result_from_content(self, content):
