@@ -9,6 +9,7 @@ from wazo_dird.helpers import BaseBackendView
 
 from . import http
 
+import phonenumbers
 
 logger = logging.getLogger(__name__)
 
@@ -108,9 +109,24 @@ class OdooPlugin(BaseSourcePlugin):
 
     def first_match(self, term, args=None):
         #models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(self.server))
-        tabfmcolumns = ['|']
+        intnum = phonenumbers.parse(term, None)
+        intnum = phonenumbers.format_number(intnum, phonenumbers.PhoneNumberFormat.INTERNATIONAL)
+        #logger.info('Format Odoo post V13 %s', intnum)
+        nbfm = 0
         for fmcolumn in self._first_matched_columns:
-            tabfmcolumns.append((fmcolumn, '=' ,term))
+            nbfm += 1
+        logger.info('Nb frst match %s', nbfm)
+        cntfm = 0
+        tabfmcolumns = []
+        for fmcolumn in self._first_matched_columns:
+            #tabfmcolumns.append((fmcolumn, 'like' , intnum))
+            if cntfm < nbfm:
+                tabfmcolumns.append('|')
+            tabfmcolumns.append((fmcolumn, 'like' , intnum))
+            if cntfm < nbfm - 1:
+                tabfmcolumns.append('|')
+            tabfmcolumns.append((fmcolumn, 'like' , term))
+            cntfm += 1
         logger.info('tabfmcolumns %s', tabfmcolumns)
         #responseName = models.execute_kw(self.db, self.uid, self.pwd,
         responseName = self.sock.execute_kw(
