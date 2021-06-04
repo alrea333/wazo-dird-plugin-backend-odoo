@@ -9,3 +9,5 @@ tags:
   - community
   - contact
 homepage: https://github.com/alexis-via/xivo-dird-plugin-backend-odoo
+debian_depends:
+  - python3-phonenumbers
